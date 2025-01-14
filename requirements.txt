@@ -3,3 +3,8 @@ openai-whisper
 pyaudio
 
 #Server requirements
+flask
+
+#Arduino requirements
+avrdude
+pySerial
