@@ -1,0 +1,5 @@
+#TextToSpeech requirements
+whisper
+pyaudio
+
+#Server requirements
