@@ -1,5 +1,5 @@
 #TextToSpeech requirements
-whisper
+openai-whisper
 pyaudio
 
 #Server requirements

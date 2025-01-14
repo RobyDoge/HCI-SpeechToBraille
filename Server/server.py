@@ -1,7 +1,10 @@
 from flask import Flask, render_template, request
-import os
+from werkzeug.utils import secure_filename
+import threading
+import os 
 
-from speech_to_text import Transcriber
+from speech_to_arduino import SpeechToArduino
+
 
 app = Flask(__name__)
 UPLOAD_FOLDER = 'uploads'
@@ -25,10 +28,24 @@ def upload_file():
         return "Invalid file format"
     if not file:
         return "No file"
+
+    # Save the uploaded file temporarily
+    filename = secure_filename(file.filename)  # Sanitize filename
+    filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    file.save(filepath)
     
-    #transcriber = Transcriber()
-    result = 'test'#transcriber.transcribe(file)
-    print(result)
+    print('------------------------------------------')
+    print (f"File saved to {filepath}")
+    print('------------------------------------------')
+
+    def aux():
+        speech_to_arduino = SpeechToArduino()
+        text = speech_to_arduino.speech_to_text(filepath)
+        speech_to_arduino.text_to_arduino(text)
+        print(text)
+
+    thread = threading.Thread(target=aux)
+    thread.start()
     return render_template('upload_successful.html')
 
 
