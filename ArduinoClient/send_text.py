@@ -19,17 +19,16 @@ def send_braille(ser, braille_code):
     ser.write(str(braille_code).encode()) # Trimite codul ca string prin serială
     ser.write(b'\n') # Trimite un newline pentru a fi detectat de Serial.parseInt()
 
-def main():
+def send_text(text):
     try:
         ser = serial.Serial('COM3', 9600)  # Înlocuiește cu portul serial corect (ex. COM3 pe Windows)
         time.sleep(2) # Așteaptă conectarea serială
 
-        input_string = "Hello, World."
-        for char in input_string:
+        for char in text:
             braille_code = char_to_braille(char)
             if braille_code != -1:
                 send_braille(ser, braille_code)
-                time.sleep(1)
+                time.sleep(2)
             else:
                 print(f"Caracterul '{char}' nu are corespondent Braille.")
 
@@ -41,6 +40,3 @@ def main():
 
     except serial.SerialException as e:
         print(f"Eroare la conectarea serială: {e}")
-
-if __name__ == "__main__":
-    main()
