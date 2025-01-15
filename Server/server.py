@@ -37,15 +37,6 @@ def upload_file():
     print('------------------------------------------')
     print (f"File saved to {filepath}")
     print('------------------------------------------')
-
-    def aux():
-        speech_to_arduino = SpeechToArduino()
-        text = speech_to_arduino.speech_to_text(filepath)
-        speech_to_arduino.text_to_arduino(text)
-        print(text)
-
-    thread = threading.Thread(target=aux)
-    thread.start()
     return render_template('upload_successful.html')
 
 

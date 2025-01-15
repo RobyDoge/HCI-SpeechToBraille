@@ -6,5 +6,4 @@ pyaudio
 flask
 
 #Arduino requirements
-avrdude
 pySerial
