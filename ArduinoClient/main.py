@@ -11,16 +11,17 @@ messages_list = ["test message"]
 def index():
     return render_template('index.html', messages=messages_list)
 
-@app.route('/get_message')
-def get_message():
-    url = 'http://13.60.162.14:6969/get_message'
-    response = requests.get(url)
+def fetch_message():
+    while True:
+        url = 'http://13.60.162.14:6969/get_message'
+        response = requests.get(url)
+        responsodata = response.json()
+        message = responsodata['message']
+        if message not in messages_list:
+            messages_list.append(message)
+            threading.Thread(target=send_text, args=(message,)).start()
 
-    responsodata = response.json()
-    message = responsodata['message']
-    messages_list.append(message)
-    threading.Thread(target=send_text, args=(message,)).start()
-    return redirect('/')
+threading.Thread(target=fetch_message, daemon=True).start()
  
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
