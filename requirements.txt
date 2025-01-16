@@ -6,10 +6,8 @@ flask
 #Server requirements
 flask
 openai-whisper
-flask_socketio
 
 
 #ArduinoClient requirements
 pySerial
 flask
-websocket

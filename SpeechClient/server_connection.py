@@ -1,7 +1,7 @@
 import requests
 
 def send_audio(filepath):
-    url = 'http://localhost:6969/upload'
+    url = 'http://13.60.162.14:6969/upload'
     print(filepath)
     files = {'audio': open(filepath, 'rb')}
     print(files)

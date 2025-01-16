@@ -28,15 +28,16 @@ def transcribe(audio):
 @app.route('/upload', methods=['POST'])
 def upload_audio():
     file = request.files['audio']
-    file.save("muie.wav")
+    file.save("****.wav")
     
-    transcript = transcribe('D:\\1FACULTATE\\Anu_III\\HCI\\HCI-SpeechToBraille\\EC2_Server\\muie.wav')
+    transcript = transcribe('****.wav')
     global message
     message = transcript
     return jsonify({'transcript': transcript})
 
 @app.route('/get_message', methods=['GET'])
 def get_message():
+    global message
     return jsonify({'message': message})
 
 if __name__ == '__main__':

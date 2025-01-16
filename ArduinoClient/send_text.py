@@ -40,3 +40,7 @@ def send_text(text):
 
     except serial.SerialException as e:
         print(f"Eroare la conectarea serială: {e}")
+
+
+if __name__ == '__main__':
+    send_text("") 
