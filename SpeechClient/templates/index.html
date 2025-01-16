@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Upload and Record</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,15 +14,32 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f9;
             color: #333;
+            background-color: #f4f4f9;
+        }
+        .large-title {
+            position: absolute; /* Position it absolutely */
+            top: 80px; /* Distance from the top */
+            text-align: center; /* Center align text */
+            width: 100%; /* Full width to center text */
+            font-size: 4rem; /* Large font size */
+            color: #007BFF; /* Color of the title */
+            font-family: 'Comic Neue', cursive;
+        }
+        .flex-container {
+            display:block; /* Use flexbox for layout */
+            margin-bottom: 10px;
+            width: 40%; /* Adjust width as needed */
         }
         .container {
-            background: #fff;
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white for better readability */
+            padding: 30px 40px; /* Padding for container */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Shadow for depth */
             text-align: center;
+            margin-right: 20px; /* Right margin for spacing between containers */
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
         h1 {
             margin-bottom: 20px;
@@ -37,33 +55,88 @@
         }
         input[type="file"] {
             margin: 10px 0;
+            padding: 5px; /* Padding for input */
+            border-radius: 4px; /* Rounded corners for input */
+            border: 1px solid #ccc; /* Light border for input */
         }
         button {
             background-color: #007BFF;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 12px 24px; /* Padding for buttons */
             border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
+            transition: background-color 0.3s; /* Transition effect for hover */
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+        .note {
+            font-size: 14px; /* Smaller font size for notes */
+            color: #666; /* Lighter color for notes */
+            margin-top: 10px; /* Space above the note */
+        }
+        .subtitle {
+            font-weight: bold;
+            font-family: 'Comic Neue', cursive;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Incarca sau Inregistreaza</h1>
-        <form action="/process" method="post" enctype="multipart/form-data">
-            <label for="file">Incarca un fisier .wav</label>
-            <input type="file" name="file" id="file" accept="audio/wav">
-            <button type="submit">Incarca</button>
-        </form>
+    <h1 class="large-title">Client - Capturare Sunet</h1>
+    
+    <!-- Flex Container for Both Sections -->
+    <div class="flex-container">
+        
+        <!-- First Container -->
+        <div class="container">
+            <h1>Încarcă sau înregistrează</h1>
+            
+            <form action="/process" method="post" enctype="multipart/form-data">
+                <label for="file" class="subtitle">Încarcă un fișier .wav</label>
+                <input type="file" name="file" id="file" accept="audio/wav" required>
+                
+                <button type="submit">Încarcă</button>
+                
+                <p class="note">Obs: Asigură-te că fișierul este în format .wav !!!</p>
+            </form>
 
-        <form action="/record">
-            <button type="submit">Inregistreaza</button>
-        </form>
+            <form action="/record">
+                <button type="submit">Înregistrează</button>
+            </form>
+        </div>
+
+        <div class="container braille-section subtitle">
+            <h2>Cafeluța Zilei</h2>
+            <p id="braille-translation">Loading...</p> <!-- Placeholder text -->
+        </div>
+
+        <script>
+            async function fetchBrailleTranslation() {
+                try {
+                    const response = await fetch('/get-braille-translation'); // Endpoint to get Braille translation
+                    if (response.ok) {
+                        const data = await response.json();
+                        document.getElementById('braille-translation').innerText = data.brailleTranslation || 'Translation not found';
+                        document.getElementById('braille-translation').style.fontFamily = 'Courier New';
+                    } else {
+                        document.getElementById('braille-translation').innerText = 'Error fetching translation';
+                        document.getElementById('braille-translation').style.fontFamily = 'Courier New';
+                    }
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                    document.getElementById('braille-translation').innerText = 'Error fetching translation';
+                    document.getElementById('braille-translation').style.fontFamily = 'Courier New';
+                }
+            }
+    
+            window.onload = fetchBrailleTranslation;
+    
+        </script>
     </div>
+
+
+
 </body>
 </html>

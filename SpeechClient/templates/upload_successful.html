@@ -4,33 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Processing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet"> <!-- Google Font -->
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Comic Neue', cursive; /* Use the playful font */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background-color: #f4f4f9; /* Light background color */
             margin: 0;
         }
 
         .container {
             text-align: center;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white for better readability */
+            padding: 40px; /* Increased padding for better spacing */
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
         }
 
         h1 {
-            color: #333;
+            color: #333; /* Darker title color */
+            margin-bottom: 20px; /* Space below the title */
+        }
+
+        .loader {
+            border: 8px solid #f3f3f3; /* Light grey */
+            border-top: 8px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 60px; /* Increased size for better visibility */
+            height: 60px; /* Increased size for better visibility */
+            animation: spin 1.5s linear infinite; /* Spin animation */
+            margin: 20px auto; /* Center the loader */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .note {
+            font-size: 14px; /* Smaller font size for notes */
+            color: #666; /* Lighter color for notes */
+            margin-top: 15px; /* Space above the note */
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Audio-ul tau a fost incarcat</h1>
-        </div>
+        <h1>Audio-ul tău a fost încărcat!</h1>
+        <div class="loader"></div> <!-- Loader animation -->
+        <p class="note">Te rugăm să aștepți în timp ce procesăm fișierul...</p> <!-- Additional note -->
+    </div>
 </body>
 </html>

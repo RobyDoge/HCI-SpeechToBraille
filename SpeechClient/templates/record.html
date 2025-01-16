@@ -4,45 +4,72 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Recorder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet"> <!-- Google Font -->
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Comic Neue', cursive; /* Use the playful font */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f4f4f4;
+            background-color: #f4f4f9; /* Light background color */
             margin: 0;
         }
 
         .container {
             text-align: center;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            padding: 40px; /* Increased padding for better spacing */
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
         }
 
         h1 {
-            color: #333;
+            color: #333; /* Darker title color */
+            margin-bottom: 20px; /* Space below the title */
         }
 
         button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+            padding: 12px 24px; /* Increased padding for buttons */
+            background-color: #007BFF; /* Blue background for buttons */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px; /* Larger font size for buttons */
+            transition: background-color 0.3s; /* Smooth transition on hover */
+            margin: 10px; /* Space around buttons */
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
+        }
+
+        .note {
+            font-size: 14px; /* Smaller font size for notes */
+            color: #666; /* Lighter color for notes */
+            margin-top: 15px; /* Space above the note */
+        }
+
+        .large-title {
+            position: absolute; /* Position it absolutely */
+            top: 300px; /* Distance from the top */
+            text-align: center; /* Center align text */
+            width: 100%; /* Full width to center text */
+            font-size: 4rem; /* Large font size */
+            color: #007BFF; /* Color of the title */
+            font-family: 'Comic Neue', cursive;
         }
     </style>
 </head>
 <body>
+    <h1 class="large-title">Client - Capturare Sunet</h1>
+
     <div class="container">
-        <h1>Inregistrare Audio</h1>
-        <button id="recordButton">Inregistreaza</button>
+        <h1>Înregistrare Audio</h1>
+        <button id="recordButton">Înregistrează</button>
         <button id="stopButton" style="display: none;">Stop</button>
-        <button id="uploadButton" style="display: none;">Incarca</button>
+        <button id="uploadButton" style="display: none;">Încarcă</button>
 
         <script>
             let mediaRecorder;
@@ -76,19 +103,18 @@
                                 const formData = new FormData();
                                 formData.append('file', audioBlob, 'recording.wav');
 
-
                                 fetch('/process', {
                                     method: 'POST',
                                     body: formData
                                 })
                                 .then(response => {
-                                if (response.ok) {
-                                    // Redirect to /process after successful upload
-                                    window.location.href = '/process';
-                                } else {
-                                    console.error('Upload failed:', response.statusText);
-                                }
-                            })
+                                    if (response.ok) {
+                                        // Redirect to /process after successful upload
+                                        window.location.href = '/process';
+                                    } else {
+                                        console.error('Upload failed:', response.statusText);
+                                    }
+                                })
                                 .catch(error => {
                                     console.error('Error:', error);
                                 });
@@ -107,11 +133,8 @@
 
             stopButton.addEventListener('click', () => {
                 mediaRecorder.stop();
-            });
-
-            // Handle upload logic here (e.g., using XMLHttpRequest or a library like Axios)
-            uploadButton.addEventListener('click', () => {
-                // ... your upload logic here ...
+                stopButton.style.display = 'none'; // Hide stop button after stopping
+                recordButton.style.display = 'block'; // Show record button again
             });
         </script>
     </div>
