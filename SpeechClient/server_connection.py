@@ -1,4 +1,10 @@
-
+import requests
 
 def send_audio(filepath):
-    print(f"Sending audio file {filepath} to the server...")
+    url = 'http://localhost:6969/upload'
+    print(filepath)
+    files = {'audio': open(filepath, 'rb')}
+    print(files)
+    response = requests.post(url, files=files)
+
+    print(response.text)

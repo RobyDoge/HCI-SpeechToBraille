@@ -1,9 +1,15 @@
-#TextToSpeech requirements
-openai-whisper
+#SpeechToTextClient requirements
 pyaudio
+flask
+
 
 #Server requirements
 flask
+openai-whisper
+flask_socketio
 
-#Arduino requirements
+
+#ArduinoClient requirements
 pySerial
+flask
+websocket
