@@ -49,7 +49,7 @@ def upload():
     return render_template('upload_successful.html')
 
 
-@app.route('/record', methods=['POST'])
+@app.route('/record')
 def record_message():
     # This endpoint can be implemented to handle audio recording data.
     return "Recording functionality not yet implemented."
