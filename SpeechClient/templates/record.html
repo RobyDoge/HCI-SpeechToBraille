@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Recorder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inregistrare Audio</h1>
+        <button id="recordButton">Inregistreaza</button>
+        <button id="stopButton" style="display: none;">Stop</button>
+        <button id="uploadButton" style="display: none;">Incarca</button>
+
+        <script>
+            let mediaRecorder;
+            let audioChunks = [];
+
+            const recordButton = document.getElementById('recordButton');
+            const stopButton = document.getElementById('stopButton');
+            const uploadButton = document.getElementById('uploadButton');
+
+            recordButton.addEventListener('click', () => {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        mediaRecorder = new MediaRecorder(stream);
+
+                        mediaRecorder.ondataavailable = (event) => {
+                            audioChunks.push(event.data);
+                        };
+
+                        mediaRecorder.onstop = () => {
+                            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' }); 
+
+                            const audioUrl = URL.createObjectURL(audioBlob);
+                            const audio = new Audio(audioUrl);
+
+                            recordButton.style.display = 'none';
+                            stopButton.style.display = 'none';
+                            uploadButton.style.display = 'block';
+
+                            // Save the audioBlob to a .wav file on the server
+                            uploadButton.addEventListener('click', () => {
+                                const formData = new FormData();
+                                formData.append('file', audioBlob, 'recording.wav');
+
+
+                                fetch('/process', {
+                                    method: 'POST',
+                                    body: formData
+                                })
+                                .then(response => {
+                                if (response.ok) {
+                                    // Redirect to /process after successful upload
+                                    window.location.href = '/process';
+                                } else {
+                                    console.error('Upload failed:', response.statusText);
+                                }
+                            })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                });
+                            });
+                        };
+
+                        mediaRecorder.start();
+
+                        recordButton.style.display = 'none';
+                        stopButton.style.display = 'block';
+                    })
+                    .catch(err => {
+                        console.error('Error accessing microphone:', err);
+                    });
+            });
+
+            stopButton.addEventListener('click', () => {
+                mediaRecorder.stop();
+            });
+
+            // Handle upload logic here (e.g., using XMLHttpRequest or a library like Axios)
+            uploadButton.addEventListener('click', () => {
+                // ... your upload logic here ...
+            });
+        </script>
+    </div>
+</body>
+</html>

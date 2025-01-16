@@ -20,8 +20,13 @@ filepath = ""
 def index():
     return render_template('index.html')
 
-@app.route('/process', methods=['POST'])
+@app.route('/process', methods=['POST','GET'])
 def process():
+    print("Processing...     ")
+    print(request.method,request.form)
+    if request.method == 'GET':
+        return render_template('uploading.html')
+
     global filepath
     if 'file' not in request.files:
         return "No file part"
@@ -48,11 +53,9 @@ def execute():
 def upload():
     return render_template('upload_successful.html')
 
-
 @app.route('/record')
 def record_message():
-    # This endpoint can be implemented to handle audio recording data.
-    return "Recording functionality not yet implemented."
+    return render_template('record.html')
 
 
 if __name__ == '__main__':

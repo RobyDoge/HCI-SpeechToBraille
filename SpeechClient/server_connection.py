@@ -1,4 +1,4 @@
 
 
 def send_audio(filepath):
-    pass
+    print(f"Sending audio file {filepath} to the server...")
